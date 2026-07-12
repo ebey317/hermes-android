@@ -48,6 +48,10 @@ TL;DR:
    bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/hermes-android/main/install.sh)
    ```
 
+> **Free Community tier:** this script installs Ollama Cloud only, with one working model. No credit card required.
+>
+> **Want local models, hybrid cloud+local, hands-off setup, or multiple devices?** See [PRICING.md](PRICING.md).
+
 > If you are sideloading from a flash drive, copy `install.sh` to the device and run `bash /sdcard/Download/install.sh` instead.
 
 ### 2. Paste your API key
@@ -120,3 +124,11 @@ And in the browser:
 ## License
 
 MIT — see the Hermes Agent repo for its license.
+
+## Paid setup services
+
+The public installer above is the **Community** tier: free, cloud-only, automatic.
+
+If you want local models, hybrid cloud+local, hands-off remote setup, or a multi-device office/workstation deployment, see [PRICING.md](PRICING.md).
+
+For paid setup inquiries: **business-development@anthropic.com**
