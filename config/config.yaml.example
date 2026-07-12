@@ -1,0 +1,26 @@
+model:
+  api_key: ${OLLAMA_API_KEY}
+  base_url: https://ollama.com/v1
+  context_length: 65536
+  default: nemotron-3-super
+  max_tokens: 2048
+  ollama_num_ctx: 65536
+  provider: ollama-cloud
+providers:
+  ollama-cloud:
+    api: https://ollama.com/v1
+    api_key: ${OLLAMA_API_KEY}
+    base_url: https://ollama.com/v1
+    default_model: nemotron-3-super
+    name: Ollama Cloud
+    openai_compatible: true
+    supports_tool_calling: true
+    supports_tools: true
+  openrouter:
+    api_key: ${OPENROUTER_API_KEY}
+    response_cache: true
+    response_cache_ttl: 300
+    min_coding_score: 0.65
+  openai:
+    api_key: ${OPENAI_API_KEY}
+    base_url: https://api.openai.com/v1

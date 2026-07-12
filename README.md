@@ -1,0 +1,134 @@
+# Hermes Agent on Android
+
+Install [Hermes Agent](https://github.com/NousResearch/hermes-agent) natively on Android through Termux, with a browser-based Web UI, Ollama Cloud integration, and optional Tailscale remote access.
+
+This is the Android counterpart to the desktop Hermes experience: one assistant that runs locally on your phone/tablet, controlled through a clean web interface.
+
+## What you get
+
+- **Hermes CLI** installed in a Python venv
+- **Hermes Web UI** on `http://127.0.0.1:8787`
+- **Ollama Cloud** configured as the default model provider
+- **Tailscale** mesh VPN for remote SSH management
+- Version-pinned Termux packages so a random `pkg upgrade` doesn't silently break everything
+
+## Supported devices
+
+- Android 12 or newer
+- `aarch64` (ARM 64-bit) only — this is what almost every modern Android phone/tablet uses
+- At least 6 GB RAM recommended (Hermes + Ollama Cloud is cloud-inference, but Termux still needs RAM for the Python stack)
+- Termux from **F-Droid**, not Google Play
+
+## Files in this repo
+
+```
+hermes-android/
+├── README.md                     # This file
+├── install.sh                    # One-command installer
+├── scripts/
+│   ├── fix-after-upgrade.sh      # Recover from a Termux Python upgrade
+│   ├── start-webui.sh            # Start/restart just the Web UI
+│   ├── start-gateway.sh          # Start/restart just the Hermes gateway
+│   └── bootstrap-termux.sh       # Initial Termux prep + permissions
+├── config/
+│   ├── .env.example              # API key template
+│   └── config.yaml.example       # Hermes config template
+├── apks/
+│   └── README.md                 # Where to download the required APKs
+└── docs/
+    ├── PREREQUISITES.md          # Step-by-step F-Droid + Termux install
+    ├── PERMISSIONS.md            # Android battery + background settings
+    ├── TROUBLESHOOTING.md        # Common failures and fixes
+    ├── KNOWN_ISSUES.md           # Platform-specific caveats
+    └── MAINTENANCE.md            # Upgrades and model switching
+```
+
+## Quick start
+
+### 1. Install the prerequisites
+
+See [`docs/PREREQUISITES.md`](docs/PREREQUISITES.md) for screenshots-level detail.
+
+TL;DR:
+
+1. Enable **Install unknown apps** for your file manager/browser.
+2. Install **F-Droid** from <https://f-droid.org>.
+3. From F-Droid, install **Termux** (package name `com.termux`).
+4. From F-Droid, install **Tailscale** (package name `com.tailscale.ipn`).
+5. Open Termux and run:
+   ```bash
+   bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/hermes-android/main/install.sh)
+   ```
+
+> If you are sideloading from a flash drive, copy `install.sh` to the device and run `bash /sdcard/Download/install.sh` instead.
+
+### 2. Paste your API key
+
+When the installer prompts, paste your **Ollama Cloud** API key. If you don't have one, get it from <https://ollama.com/settings>.
+
+The installer validates the key by actually sending a test chat message, not just listing models.
+
+### 3. Open the Web UI
+
+On the Android device, open a browser and go to:
+
+```
+http://127.0.0.1:8787
+```
+
+You should see the Hermes Web UI. Send a message. The assistant should reply.
+
+### 4. Optional: remote management over Tailscale
+
+After Tailscale is signed in, your tablet gets a stable IP like `100.x.y.z`. From another machine on the same Tailscale network:
+
+```bash
+ssh -p 8022 -o ConnectTimeout=30 u0_aNNN@100.x.y.z
+```
+
+Use the username that `whoami` prints inside Termux.
+
+## Important defaults
+
+- Web UI port: **8787**
+- Hermes CLI config: `~/.hermes/config.yaml`
+- API keys: `~/.hermes/.env`
+- Default provider: **ollama-cloud**
+- Default model: **nemotron-3-super**
+
+## Verification
+
+After install, these should all succeed:
+
+```bash
+hermes version
+hermes doctor
+hermes gateway status
+```
+
+And in the browser:
+
+1. Open `http://127.0.0.1:8787`.
+2. Create a new chat.
+3. Type a message and press Enter.
+4. You should get a reply from the model.
+
+## Security
+
+- API keys are stored in plain text in `~/.hermes/.env`. This is standard for Hermes, but keep the file readable only by you:
+  ```bash
+  chmod 600 ~/.hermes/.env
+  ```
+- The Web UI listens on `127.0.0.1` by default. It is **not** exposed to the public internet.
+- Tailscale is used for remote access, which is encrypted and private to your account.
+- **Set a Web UI password** if more than one person uses the device. The installer requires this by default; see [`docs/PERMISSIONS.md`](docs/PERMISSIONS.md).
+
+## Getting help
+
+- [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md)
+- [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md)
+- [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md)
+
+## License
+
+MIT — see the Hermes Agent repo for its license.
