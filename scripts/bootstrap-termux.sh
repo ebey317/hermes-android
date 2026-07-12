@@ -55,22 +55,36 @@ pkg install -y rust
 echo "==> Installing Termux cryptography..."
 pkg install -y python-cryptography
 
-# 8. Wake lock helper
-echo "==> Installing termux-wake-lock..."
-pkg install -y termux-wake-lock 2>/dev/null || true
+# 8. Wake lock helper (command built into Termux; no package needed)
+echo "==> Wake-lock command ready (termux-wake-lock is part of Termux)."
 
 # 9. Storage permission helper
 if [ ! -d "$HOME/storage" ]; then
   echo "==> Run 'termux-setup-storage' if you want to access shared storage."
 fi
 
-# 10. SSH setup
+# 10. SSH server setup
 if [ ! -f "$HOME/.ssh/authorized_keys" ]; then
   mkdir -p "$HOME/.ssh"
   chmod 700 "$HOME/.ssh"
   touch "$HOME/.ssh/authorized_keys"
   chmod 600 "$HOME/.ssh/authorized_keys"
-  echo "==> Created ~/.ssh/authorized_keys. Paste your public key if you want passwordless SSH."
+  echo "==> Created ~/.ssh/authorized_keys. Paste your public key for passwordless SSH."
+fi
+
+# Configure sshd on port 8022
+SSHD_CONFIG="/data/data/com.termux/files/usr/etc/ssh/sshd_config"
+if [ -f "$SSHD_CONFIG" ] && ! grep -q "^Port 8022" "$SSHD_CONFIG"; then
+  echo "==> Configuring sshd on port 8022..."
+  mkdir -p "$(dirname "$SSHD_CONFIG")"
+  echo "" >> "$SSHD_CONFIG"
+  echo "Port 8022" >> "$SSHD_CONFIG"
+fi
+
+# Start sshd if not running
+if ! pgrep -x "sshd" >/dev/null 2>&1; then
+  echo "==> Starting sshd..."
+  sshd
 fi
 
 # 11. Print summary

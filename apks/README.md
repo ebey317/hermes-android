@@ -17,4 +17,4 @@
 | Tailscale Android | https://f-droid.org/packages/com.tailscale.ipn/ or https://tailscale.com/download/android |
 | Ollama Cloud key | https://ollama.com/settings |
 | Hermes Agent | https://github.com/NousResearch/hermes-agent |
-| Hermes Web UI | https://github.com/NousResearch/hermes-webui |
+| Hermes Web UI | https://github.com/nesquena/hermes-webui |

@@ -126,4 +126,4 @@ Replace `YOUR_GITHUB_USER` with the actual GitHub username where this repo is ho
 | OpenRouter key | https://openrouter.ai/keys |
 | OpenAI key | https://platform.openai.com/api-keys |
 | Hermes Agent | https://github.com/NousResearch/hermes-agent |
-| Hermes Web UI | https://github.com/NousResearch/hermes-webui |
+| Hermes Web UI | https://github.com/nesquena/hermes-webui |

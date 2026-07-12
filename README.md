@@ -8,17 +8,21 @@ Install [Hermes Agent](https://github.com/NousResearch/hermes-agent) natively on
 - Get Tailscale: https://tailscale.com/download/android
 - Install Termux from F-Droid: https://f-droid.org/packages/com.termux/
 - Hermes Agent source: https://github.com/NousResearch/hermes-agent
-- Hermes Web UI source: https://github.com/NousResearch/hermes-webui
+- Hermes Web UI source: https://github.com/nesquena/hermes-webui
 
 This is the Android counterpart to the desktop Hermes experience: one assistant that runs locally on your phone/tablet, controlled through a clean web interface.
+
+> **Note:** This setup uses **Ollama Cloud**, not a local Ollama server. You do not need to install or run `ollama` on Android. If you later want local models, install the separate Ollama Android app.
 
 ## What you get
 
 - **Hermes CLI** installed in a Python venv
 - **Hermes Web UI** on `http://127.0.0.1:8787`
 - **Ollama Cloud** configured as the default model provider
-- **Tailscale** mesh VPN for remote SSH management
+- **Tailscale** mesh VPN for remote SSH management (you install the Android app; the script configures the rest)
 - Version-pinned Termux packages so a random `pkg upgrade` doesn't silently break everything
+- An SSH server on **port 8022** (configured and started by the installer)
+- Web UI password enforcement (enabled during install)
 
 ## Supported devices
 

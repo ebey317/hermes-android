@@ -52,4 +52,4 @@
 | Ollama Cloud key | https://ollama.com/settings |
 | OpenRouter key | https://openrouter.ai/keys |
 | Hermes Agent | https://github.com/NousResearch/hermes-agent |
-| Hermes Web UI | https://github.com/NousResearch/hermes-webui |
+| Hermes Web UI | https://github.com/nesquena/hermes-webui |

@@ -24,7 +24,7 @@ nohup "$INSTALL_DIR/venv/bin/python" server.py > "$LOG" 2>&1 < /dev/null &
 cd "$HOME"
 
 sleep 3
-if python -c "import socket; s=socket.socket(); s.settimeout(3); s.connect(('127.0.0.1',8787)); s.close()" 2>/dev/null; then
+if curl -fsS http://127.0.0.1:8787/api/health/agent >/dev/null 2>&1; then
   echo "Web UI is running on http://127.0.0.1:8787"
 else
   echo "WARNING: Web UI did not respond on port 8787. Check $LOG"

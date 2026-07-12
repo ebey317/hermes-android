@@ -5,7 +5,7 @@ set -e
 # One-command install for Termux aarch64.
 
 REPO_URL="https://github.com/NousResearch/hermes-agent.git"
-WEBUI_REPO="https://github.com/NousResearch/hermes-webui.git"
+WEBUI_REPO="https://github.com/nesquena/hermes-webui.git"
 INSTALL_DIR="$HOME/.hermes/hermes-agent"
 WEBUI_DIR="$HOME/hermes-webui"
 PREFIX="/data/data/com.termux/files/usr"
@@ -65,6 +65,8 @@ fi
 
 # 5. Check for prebuilt Termux packages
 PREBUILT=0
+# Termux does not currently ship python-pydantic, python-jiter, or python-maturin as separate packages.
+# This check is kept for forward compatibility; on Termux Python 3.14 these will be built from source.
 if pkg search python-pydantic >/dev/null 2>&1; then
   echo "==> Found prebuilt Termux Python packages; installing..."
   pkg install -y python-pydantic python-jiter python-maturin 2>/dev/null || true
@@ -155,9 +157,9 @@ if [ ! -f "$CONFIG" ]; then
   if [ -f "$SCRIPT_DIR/config/config.yaml.example" ]; then
     cp "$SCRIPT_DIR/config/config.yaml.example" "$CONFIG"
   else
-    cat > "$CONFIG" <>EOF
+    cat > "$CONFIG" <<'EOF'
 model:
-  api_key: \${OLLAMA_API_KEY}
+  api_key: ${OLLAMA_API_KEY}
   base_url: https://ollama.com/v1
   context_length: 65536
   default: nemotron-3-super
@@ -169,20 +171,19 @@ EOF
 fi
 
 # 13. Set Web UI password
-if [ -f "$HOME/.hermes/webui/settings.json" ]; then
-  echo "==> Enforcing Web UI password..."
-  python3 -c "
-import json
-p = '/data/data/com.termux/files/home/.hermes/webui/settings.json'
+echo "==> Enforcing Web UI password..."
+mkdir -p "$HOME/.hermes/webui"
+python3 - <<'PYEOF'
+import json, pathlib
+p = pathlib.Path('/data/data/com.termux/files/home/.hermes/webui/settings.json')
 try:
-    d = json.load(open(p))
-except FileNotFoundError:
+    d = json.loads(p.read_text())
+except (FileNotFoundError, json.JSONDecodeError):
     d = {}
 d['auth_enabled'] = True
 d['password_auth_enabled'] = True
-json.dump(d, open(p, 'w'), indent=2)
-" || true
-fi
+p.write_text(json.dumps(d, indent=2))
+PYEOF
 
 # 14. Start services
 echo "==> Starting Hermes gateway..."
