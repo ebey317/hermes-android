@@ -2,6 +2,14 @@
 
 Install [Hermes Agent](https://github.com/NousResearch/hermes-agent) natively on Android through Termux, with a browser-based Web UI, Ollama Cloud integration, and optional Tailscale remote access.
 
+- Get the Ollama Cloud API key: https://ollama.com/settings
+- Get an OpenRouter key (optional): https://openrouter.ai/keys
+- Get an OpenAI key (optional): https://platform.openai.com/api-keys
+- Get Tailscale: https://tailscale.com/download/android
+- Install Termux from F-Droid: https://f-droid.org/packages/com.termux/
+- Hermes Agent source: https://github.com/NousResearch/hermes-agent
+- Hermes Web UI source: https://github.com/NousResearch/hermes-webui
+
 This is the Android counterpart to the desktop Hermes experience: one assistant that runs locally on your phone/tablet, controlled through a clean web interface.
 
 ## What you get
@@ -16,32 +24,8 @@ This is the Android counterpart to the desktop Hermes experience: one assistant 
 
 - Android 12 or newer
 - `aarch64` (ARM 64-bit) only — this is what almost every modern Android phone/tablet uses
-- At least 6 GB RAM recommended (Hermes + Ollama Cloud is cloud-inference, but Termux still needs RAM for the Python stack)
+- At least 6 GB RAM recommended
 - Termux from **F-Droid**, not Google Play
-
-## Files in this repo
-
-```
-hermes-android/
-├── README.md                     # This file
-├── install.sh                    # One-command installer
-├── scripts/
-│   ├── fix-after-upgrade.sh      # Recover from a Termux Python upgrade
-│   ├── start-webui.sh            # Start/restart just the Web UI
-│   ├── start-gateway.sh          # Start/restart just the Hermes gateway
-│   └── bootstrap-termux.sh       # Initial Termux prep + permissions
-├── config/
-│   ├── .env.example              # API key template
-│   └── config.yaml.example       # Hermes config template
-├── apks/
-│   └── README.md                 # Where to download the required APKs
-└── docs/
-    ├── PREREQUISITES.md          # Step-by-step F-Droid + Termux install
-    ├── PERMISSIONS.md            # Android battery + background settings
-    ├── TROUBLESHOOTING.md        # Common failures and fixes
-    ├── KNOWN_ISSUES.md           # Platform-specific caveats
-    └── MAINTENANCE.md            # Upgrades and model switching
-```
 
 ## Quick start
 
@@ -52,9 +36,9 @@ See [`docs/PREREQUISITES.md`](docs/PREREQUISITES.md) for screenshots-level detai
 TL;DR:
 
 1. Enable **Install unknown apps** for your file manager/browser.
-2. Install **F-Droid** from <https://f-droid.org>.
-3. From F-Droid, install **Termux** (package name `com.termux`).
-4. From F-Droid, install **Tailscale** (package name `com.tailscale.ipn`).
+2. Install **F-Droid** from https://f-droid.org.
+3. From F-Droid, install **Termux** (https://f-droid.org/packages/com.termux/).
+4. From F-Droid, install **Tailscale** (https://f-droid.org/packages/com.tailscale.ipn/).
 5. Open Termux and run:
    ```bash
    bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/hermes-android/main/install.sh)
@@ -64,7 +48,7 @@ TL;DR:
 
 ### 2. Paste your API key
 
-When the installer prompts, paste your **Ollama Cloud** API key. If you don't have one, get it from <https://ollama.com/settings>.
+When the installer prompts, paste your **Ollama Cloud** API key from https://ollama.com/settings.
 
 The installer validates the key by actually sending a test chat message, not just listing models.
 

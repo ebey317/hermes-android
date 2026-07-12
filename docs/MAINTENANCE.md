@@ -96,6 +96,12 @@ hermes config set model.default "openai/gpt-4o-mini"
 
 Or edit `~/.hermes/config.yaml` directly.
 
+Available providers and keys:
+- Ollama Cloud: https://ollama.com/settings
+- OpenRouter: https://openrouter.ai/keys
+- OpenAI: https://platform.openai.com/api-keys
+- Anthropic: https://console.anthropic.com/settings/keys
+
 ## Backup
 
 Important files to back up:

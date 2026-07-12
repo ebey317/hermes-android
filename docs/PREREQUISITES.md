@@ -24,10 +24,7 @@ This guide assumes you have never sideloaded an app before.
 
 ## 2. Download F-Droid
 
-1. On the Android device, open the browser and go to:
-   ```
-   https://f-droid.org
-   ```
+1. On the Android device, open the browser and go to https://f-droid.org
 2. Tap **Download F-Droid**.
 3. Wait for the `.apk` file to finish downloading.
 4. Open the downloaded file from the notification or from your file manager.
@@ -41,15 +38,19 @@ If it asks for permission, tap **Allow**.
 
 1. Open the **F-Droid** app.
 2. Pull down to refresh the app list.
-3. Search for **Termux** (package name `com.termux`).
+3. Search for **Termux** (package name `com.termux`):
+   https://f-droid.org/packages/com.termux/
 4. Tap **Install**.
 5. Wait for the install to finish.
 
 ## 4. Install Tailscale from F-Droid
 
-1. In **F-Droid**, search for **Tailscale** (package name `com.tailscale.ipn`).
+1. In **F-Droid**, search for **Tailscale** (package name `com.tailscale.ipn`):
+   https://f-droid.org/packages/com.tailscale.ipn/
 2. Tap **Install**.
 3. Wait for the install to finish.
+
+Or download Tailscale directly from https://tailscale.com/download/android.
 
 ## 5. Open Termux for the first time
 
@@ -113,3 +114,16 @@ bash ~/storage/downloads/install.sh
 ```
 
 Replace `YOUR_GITHUB_USER` with the actual GitHub username where this repo is hosted.
+
+## Direct links
+
+| What | Link |
+|------|------|
+| F-Droid | https://f-droid.org |
+| Termux | https://f-droid.org/packages/com.termux/ |
+| Tailscale Android | https://f-droid.org/packages/com.tailscale.ipn/ or https://tailscale.com/download/android |
+| Ollama Cloud key | https://ollama.com/settings |
+| OpenRouter key | https://openrouter.ai/keys |
+| OpenAI key | https://platform.openai.com/api-keys |
+| Hermes Agent | https://github.com/NousResearch/hermes-agent |
+| Hermes Web UI | https://github.com/NousResearch/hermes-webui |

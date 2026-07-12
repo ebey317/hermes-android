@@ -5,24 +5,34 @@ set -e
 # One-command install for Termux aarch64.
 
 REPO_URL="https://github.com/NousResearch/hermes-agent.git"
+WEBUI_REPO="https://github.com/NousResearch/hermes-webui.git"
 INSTALL_DIR="$HOME/.hermes/hermes-agent"
 WEBUI_DIR="$HOME/hermes-webui"
-WEBUI_REPO="https://github.com/NousResearch/hermes-webui.git"
 PREFIX="/data/data/com.termux/files/usr"
 PY_MAJ=$(python -c "import sys; print(sys.version_info.major)")
 PY_MIN=$(python -c "import sys; print(sys.version_info.minor)")
+OLLAMA_KEY_URL="https://ollama.com/settings"
+
+# Find this script's directory for fallback bootstrap
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "==> Hermes Agent installer for Android/Termux"
 echo "Python version detected: ${PY_MAJ}.${PY_MIN}"
+echo ""
+echo "You will need an Ollama Cloud API key from:"
+echo "  $OLLAMA_KEY_URL"
+echo ""
 
 # 1. Bootstrap
-bash "$(dirname "$0")/scripts/bootstrap-termux.sh" 2>/dev/null || {
+if [ -f "$SCRIPT_DIR/scripts/bootstrap-termux.sh" ]; then
+  bash "$SCRIPT_DIR/scripts/bootstrap-termux.sh"
+else
   echo "Bootstrap script not found next to install.sh; running inline bootstrap..."
   termux-wake-lock 2>/dev/null || true
   pkg update -y
   pkg upgrade -y
   pkg install -y git python clang make pkg-config libffi openssl ca-certificates curl openssh nodejs ripgrep ffmpeg tmux rust python-cryptography termux-wake-lock
-}
+fi
 
 termux-wake-lock 2>/dev/null || true
 
@@ -33,7 +43,7 @@ if [ -d "$INSTALL_DIR" ]; then
   git fetch origin
   git reset --hard origin/main || true
 else
-  echo "==> Cloning Hermes Agent..."
+  echo "==> Cloning Hermes Agent from $REPO_URL ..."
   git clone "$REPO_URL" "$INSTALL_DIR"
   cd "$INSTALL_DIR"
 fi
@@ -56,6 +66,7 @@ fi
 # 5. Check for prebuilt Termux packages
 PREBUILT=0
 if pkg search python-pydantic >/dev/null 2>&1; then
+  echo "==> Found prebuilt Termux Python packages; installing..."
   pkg install -y python-pydantic python-jiter python-maturin 2>/dev/null || true
   PREBUILT=1
 fi
@@ -96,7 +107,7 @@ if [ -d "$WEBUI_DIR" ]; then
   git fetch origin || true
   git reset --hard origin/main || true
 else
-  echo "==> Cloning Web UI..."
+  echo "==> Cloning Web UI from $WEBUI_REPO ..."
   git clone "$WEBUI_REPO" "$WEBUI_DIR" 2>/dev/null || {
     echo "Web UI repo not accessible; skipping separate clone."
     echo "The bundled Web UI from Hermes will be used if available."
@@ -107,6 +118,9 @@ fi
 ENV_FILE="$HOME/.hermes/.env"
 mkdir -p "$HOME/.hermes"
 if [ ! -f "$ENV_FILE" ] || ! grep -q "OLLAMA_API_KEY=" "$ENV_FILE" 2>/dev/null; then
+  echo ""
+  echo "==> Get your Ollama Cloud API key from:"
+  echo "     $OLLAMA_KEY_URL"
   echo ""
   echo "==> Paste your Ollama Cloud API key and press Enter:"
   printf "OLLAMA_API_KEY=" > "$ENV_FILE"
@@ -129,7 +143,8 @@ else
   echo "ERROR: Key cannot chat. Response:"
   echo "$RESP"
   echo ""
-  echo "Your key may be read-only. Get a fresh inference key from https://ollama.com/settings"
+  echo "Your key may be read-only. Get a fresh inference key from:"
+  echo "  $OLLAMA_KEY_URL"
   exit 1
 fi
 
@@ -137,7 +152,9 @@ fi
 CONFIG="$HOME/.hermes/config.yaml"
 if [ ! -f "$CONFIG" ]; then
   echo "==> Creating default Hermes config..."
-  cp "$(dirname "$0")/config/config.yaml.example" "$CONFIG" 2>/dev/null || {
+  if [ -f "$SCRIPT_DIR/config/config.yaml.example" ]; then
+    cp "$SCRIPT_DIR/config/config.yaml.example" "$CONFIG"
+  else
     cat > "$CONFIG" <>EOF
 model:
   api_key: \${OLLAMA_API_KEY}
@@ -148,7 +165,7 @@ model:
   ollama_num_ctx: 65536
   provider: ollama-cloud
 EOF
-  }
+  fi
 fi
 
 # 13. Set Web UI password
@@ -156,7 +173,7 @@ if [ -f "$HOME/.hermes/webui/settings.json" ]; then
   echo "==> Enforcing Web UI password..."
   python3 -c "
 import json
-p = '$HOME/.hermes/webui/settings.json'
+p = '/data/data/com.termux/files/home/.hermes/webui/settings.json'
 try:
     d = json.load(open(p))
 except FileNotFoundError:
@@ -164,7 +181,7 @@ except FileNotFoundError:
 d['auth_enabled'] = True
 d['password_auth_enabled'] = True
 json.dump(d, open(p, 'w'), indent=2)
-"
+" || true
 fi
 
 # 14. Start services
@@ -175,7 +192,7 @@ if [ -f "$WEBUI_DIR/server.py" ]; then
   echo "==> Starting Web UI..."
   cd "$WEBUI_DIR"
   nohup "$INSTALL_DIR/venv/bin/python" server.py > "$HOME/.hermes/webui/server.log" 2>&1 < /dev/null &
-cd "$INSTALL_DIR"
+  cd "$INSTALL_DIR"
 fi
 
 # 15. Pin packages
@@ -195,3 +212,4 @@ echo "Config: $CONFIG"
 echo "Keys:   $ENV_FILE"
 echo ""
 echo "If the Web UI doesn't load, wait 10 seconds and hard-refresh the browser."
+echo "For help: https://github.com/YOUR_GITHUB_USER/hermes-android/blob/main/docs/TROUBLESHOOTING.md"

@@ -36,12 +36,6 @@ This prevents the CPU from sleeping while Termux is running. Run it before:
 - Running `hermes gateway run`
 - Running `sshd`
 
-To allow the screen to sleep but keep Termux alive:
-
-```bash
-termux-wake-lock &
-```
-
 To release the lock later:
 
 ```bash
@@ -50,7 +44,10 @@ termux-wake-release
 
 ## 4. Autostart Termux on boot (optional)
 
-Install the Termux:Boot app from F-Droid, or create a boot script:
+Install the Termux:Boot app from F-Droid:
+https://f-droid.org/packages/com.termux.boot/
+
+Or create a boot script:
 
 ```bash
 mkdir -p ~/.termux/boot
@@ -100,9 +97,10 @@ Then set a new password when the Web UI prompts you.
 ## 6. Tailscale permission
 
 1. Open **Tailscale**.
-2. Sign in or create an account.
+2. Sign in or create an account at https://login.tailscale.com.
 3. Tap **Enable VPN** when Android asks.
-4. Make sure the tablet appears in your Tailscale admin console.
+4. Make sure the tablet appears in your Tailscale admin console:
+   https://login.tailscale.com/admin/machines
 
 ## 7. Generate SSH keys for passwordless login
 
@@ -146,3 +144,10 @@ After setup, you should have:
 - [ ] Web UI password set
 - [ ] Tailscale connected
 - [ ] SSH key-based login configured (optional but recommended)
+
+## Direct links
+
+| What | Link |
+|------|------|
+| Tailscale admin | https://login.tailscale.com/admin/machines |
+| Termux:Boot | https://f-droid.org/packages/com.termux.boot/ |

@@ -1,32 +1,20 @@
-# Where to get the APKs
+# Common pitfalls
 
-This repo does **not** redistribute APK files because they are large and update frequently. Download them once and keep them on a flash drive, SD card, or shared folder for offline installs.
+- **Google Play Termux is broken/outdated.** Always use F-Droid: https://f-droid.org/packages/com.termux/.
+- **Android kills background Termux.** Use `termux-wake-lock` (https://f-droid.org/packages/com.termux/) and keep Termux in recent apps.
+- **Python 3.14 breaks the venv.** Either build Python 3.13 from source or wait for Hermes to raise the `<3.14` cap.
+- **Web UI must be restarted after any venv rebuild.** It can become a "ghost" process holding a deleted Python binary.
+- **Don't ask the user for API keys they already provided.** Hermes CLI and Web UI share `~/.hermes/.env` and `~/.hermes/config.yaml`.
+- **Provider `api_key` must reference the `.env` variable, not a literal.** If `ollama-cloud` has `api_key: ollama` instead of `api_key: ${OLLAMA_API_KEY}`, all Ollama Cloud requests will fail with authorization errors. Same for `openrouter` and `${OPENROUTER_API_KEY}`.
+- **Live edits to config.yaml may not stick while a ghost Web UI process is running.** Stop the Web UI before editing, or edit via a helper script that can overwrite it atomically.
 
-| APK | Direct download | F-Droid package |
-|-----|-----------------|-----------------|
-| F-Droid client | <https://f-droid.org/> | N/A |
-| Termux | <https://f-droid.org/packages/com.termux/> | `com.termux` |
-| Tailscale | <https://f-droid.org/packages/com.tailscale.ipn/> | `com.tailscale.ipn` |
+## Direct links
 
-## Why not Google Play?
-
-- **Termux on Google Play** is deprecated and broken on newer Android versions.
-- **F-Droid** builds Termux the way the maintainers intend.
-
-## Optional APKs
-
-| APK | Why you might want it |
-|-----|-----------------------|
-| Termux:Boot | Start sshd and Hermes automatically after reboot |
-| Termux:Widget | Launch Termux scripts from the home screen |
-| Termux:API | Access Android notifications, clipboard, etc. |
-| Termux:Styling | Change colors/fonts |
-
-## Sideload steps
-
-1. Copy the APKs to the Android device (flash drive, Bluetooth, cloud storage, etc.).
-2. Enable **Install unknown apps** for your file manager.
-3. Install F-Droid first.
-4. Open F-Droid and install Termux + Tailscale.
-
-Or install the APKs directly if you already have them.
+| What | Link |
+|------|------|
+| Termux | https://f-droid.org/packages/com.termux/ |
+| F-Droid | https://f-droid.org |
+| Tailscale Android | https://f-droid.org/packages/com.tailscale.ipn/ or https://tailscale.com/download/android |
+| Ollama Cloud key | https://ollama.com/settings |
+| Hermes Agent | https://github.com/NousResearch/hermes-agent |
+| Hermes Web UI | https://github.com/NousResearch/hermes-webui |

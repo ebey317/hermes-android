@@ -61,7 +61,7 @@ curl -sS -H "Authorization: Bearer $OLLAMA_API_KEY" \
   https://ollama.com/v1/chat/completions
 ```
 
-If the first works but the second says `Unauthorized`, your key can list models but cannot chat. Get a fresh inference key from <https://ollama.com/settings>.
+If the first works but the second says `Unauthorized`, your key can list models but cannot chat. Get a fresh inference key from https://ollama.com/settings.
 
 ### Likely cause 3: Config points at local Ollama
 
@@ -136,7 +136,7 @@ Monitor:
 tmux attach -t hermes_install
 ```
 
-Close other Android apps to free RAM. If the build still dies, the tablet doesn't have enough memory. Use a cloud provider instead of local inference, or install on a device with more RAM.
+Close other Android apps to free RAM. If the build still dies, the tablet doesn't have enough memory.
 
 ## Problem: SSH connection times out
 
@@ -205,6 +205,17 @@ apt update && apt full-upgrade -y
 ```
 
 Then test `curl --version`.
+
+## Direct links
+
+| What | Link |
+|------|------|
+| Ollama Cloud key | https://ollama.com/settings |
+| OpenRouter key | https://openrouter.ai/keys |
+| OpenAI key | https://platform.openai.com/api-keys |
+| Tailscale | https://tailscale.com/download/android |
+| F-Droid Termux | https://f-droid.org/packages/com.termux/ |
+| Hermes Agent | https://github.com/NousResearch/hermes-agent |
 
 ## Still stuck?
 

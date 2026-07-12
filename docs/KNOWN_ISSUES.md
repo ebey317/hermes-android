@@ -24,7 +24,8 @@
 ## Ollama Cloud
 
 - A key that can list models may still fail on chat completions. The installer tests the chat endpoint before continuing.
-- Model slugs must match Ollama Cloud exactly. Use the model picker in the Web UI or check `https://ollama.com/v1/models`.
+- Model slugs must match Ollama Cloud exactly. Use the model picker in the Web UI or check https://ollama.com/v1/models.
+- Get a fresh key at https://ollama.com/settings if the current one is read-only.
 
 ## Security
 
@@ -41,3 +42,14 @@
 
 - First install can take 30–90 minutes on a mid-range ARM tablet.
 - Future `git pull` + `pip install -e .` updates are much faster.
+
+## Direct links
+
+| What | Link |
+|------|------|
+| Termux | https://f-droid.org/packages/com.termux/ |
+| Tailscale | https://tailscale.com/download/android |
+| Ollama Cloud key | https://ollama.com/settings |
+| OpenRouter key | https://openrouter.ai/keys |
+| Hermes Agent | https://github.com/NousResearch/hermes-agent |
+| Hermes Web UI | https://github.com/NousResearch/hermes-webui |
