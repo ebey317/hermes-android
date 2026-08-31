@@ -4,7 +4,7 @@ Hermes on Android gives you a private AI assistant that runs locally on your pho
 
 If you want local models, hybrid cloud+local, multiple devices, or hands-off setup, the paid tiers below cover that.
 
-For paid setup inquiries: contact Elijah at **business-development@anthropic.com**
+For paid setup inquiries: contact Elijah at **ebey317@gmail.com**
 
 ---
 
@@ -160,4 +160,4 @@ Hardware cost is separate. You can buy locally and have it configured remotely, 
 ## Get Started
 
 - **Free:** follow the README and run `install.sh`
-- **Paid setup:** email **business-development@anthropic.com** with which tier you want and how many devices you have
+- **Paid setup:** email **ebey317@gmail.com** with which tier you want and how many devices you have

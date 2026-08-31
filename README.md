@@ -131,4 +131,4 @@ The public installer above is the **Community** tier: free, cloud-only, automati
 
 If you want local models, hybrid cloud+local, hands-off remote setup, or a multi-device office/workstation deployment, see [PRICING.md](PRICING.md).
 
-For paid setup inquiries: **business-development@anthropic.com**
+For paid setup inquiries: **ebey317@gmail.com**
